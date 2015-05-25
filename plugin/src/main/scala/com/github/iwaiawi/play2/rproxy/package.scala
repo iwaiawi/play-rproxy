@@ -5,7 +5,6 @@ import play.api.mvc.{Request, Result}
 import scala.concurrent.Future
 
 package object rproxy {
-//  type Response = Future[Result]
 
   private type Headers[+A] = Map[String, A]
   type SimpleHeaders = Headers[String]

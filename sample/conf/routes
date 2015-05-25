@@ -1,0 +1,16 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /cf                              controllers.MoneyForwardProxy.cf
+POST    /cf/fetch                        controllers.MoneyForwardProxy.fetch
+POST    /session                         controllers.MoneyForwardProxy.session
+POST    /users/sign_in                   controllers.MoneyForwardProxy.sign_in
+GET     /assets/*path                    controllers.MoneyForwardProxy.assets(path)
+
+GET     /admin/clear                     controllers.MoneyForwardProxy.clear
+
+GET     /                                controllers.MoneyForwardProxy.cachedPassThrough(path="/")
+GET     /*path                           controllers.MoneyForwardProxy.cachedPassThrough(path)
+POST    /*path                           controllers.MoneyForwardProxy.passThrough(path)

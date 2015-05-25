@@ -12,31 +12,33 @@ object ApplicationBuild extends Build {
       organization := "com.github.iwaiawi",
       version := "0.0.2",
       scalaVersion := "2.11.5",
-      crossScalaVersions := scalaVersion.value :: "2.10.4" :: Nil,
       resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/",
       libraryDependencies ++= Seq(
         "com.typesafe.play" %% "play" % play.core.PlayVersion.current % "provided",
-        "com.typesafe.play" %% "play-cache" % play.core.PlayVersion.current % "provided",
-        "com.typesafe.play" %% "play-ws" % play.core.PlayVersion.current % "provided"
+        "com.typesafe.play" %% "play-cache" % play.core.PlayVersion.current,
+        "com.typesafe.play" %% "play-ws" % play.core.PlayVersion.current
       ),
       scalacOptions ++= Seq("-language:_", "-deprecation")
     ) ++ publishingSettings :_*
   )
 
-  val appDependencies = Seq(
+  val sampleAppDependencies = Seq(
+	  "com.typesafe.play" %% "play-cache" % play.core.PlayVersion.current,
+	  "com.typesafe.play" %% "play-ws" % play.core.PlayVersion.current
   )
 
-  val playAppName = "playapp"
-  val playAppVersion = "1.0-SNAPSHOT"
+  val sampleAppName = "sample"
+  val sampleAppVersion = "1.0-SNAPSHOT"
 
-  lazy val playapp = Project(
-    playAppName,
-    file("playapp")
+  lazy val sample = Project(
+    sampleAppName,
+    file("sample")
   ).enablePlugins(play.PlayScala).settings(
     resourceDirectories in Test += baseDirectory.value / "conf",
     scalaVersion := "2.11.5",
-    version := playAppVersion,
-    libraryDependencies ++= appDependencies
+    version := sampleAppVersion,
+    resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/",
+    libraryDependencies ++= sampleAppDependencies
   )
   .dependsOn(plugin)
   .aggregate(plugin)
@@ -52,7 +54,7 @@ object ApplicationBuild extends Build {
 //    val nexus = "https://oss.sonatype.org/"
 //    if (v.trim.endsWith("SNAPSHOT")) Some("snapshots" at nexus + "content/repositories/snapshots")
 //    else Some("releases" at nexus + "service/local/staging/deploy/maven2")
-    Some(Resolver.file("current", file("./publish")))
+    Some(Resolver.file("currentDir", file("./publish")))
   }
 
   val _pomExtra =
